@@ -22,6 +22,12 @@
     {/each}
 </section>
 
+<button
+on:click={() => {
+    alert(items);
+}}
+>itemstest</button>
+
 <style>
 
 </style>
