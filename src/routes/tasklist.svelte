@@ -22,9 +22,9 @@
 
 </script>
 
-<section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+<ul use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
     {#each items as item (item.id)}
-        <div animate:flip="{{duration: flipDurationMs}}">
+        <li animate:flip="{{duration: flipDurationMs}}">
             <slot />
             {item.title}
             {#if item.sub.length > 0}
@@ -33,16 +33,16 @@
                 level={level + 1}
                 />
             {/if}
-        </div>
+        </li>
     {/each}
-</section>
+</ul>
 
 <button
 on:click={() => {
     alert(JSON.stringify(items, null, 2));
 }}
 >
-    {level}
+    Level {level}
 </button>
 
 <style>
