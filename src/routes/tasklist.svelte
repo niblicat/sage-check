@@ -3,21 +3,22 @@
     import {dndzone} from "svelte-dnd-action";
     import * as todo from './todo';
     import type { Task } from './todo';
+    import { createEventDispatcher } from "svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let tasks: Task[] = [];
-
     export let level = 0;
 
-    // export let tasks: any = [];
-
     var items = tasks;
-    var flipDurationMs = 200;
+    var flipDurationMs = 100;
 
     function handleDndConsider(e: CustomEvent) {
         items = e.detail.items;
     }
     function handleDndFinalize(e: CustomEvent) {
         items = e.detail.items;
+        dispatch('updateParent', items);
     }
 
 </script>
@@ -31,6 +32,11 @@
                 <svelte:self
                 tasks={item.sub}
                 level={level + 1}
+                on:updateParent={(e) => {
+                    item.sub = e.detail;
+                    alert(JSON.stringify(items, null, 2) + ' level=' + level);
+                    dispatch('updateParent', items);
+                }}
                 />
             {/if}
         </li>
@@ -42,7 +48,7 @@ on:click={() => {
     alert(JSON.stringify(items, null, 2));
 }}
 >
-    Level {level}
+    L{level}
 </button>
 
 <style>
