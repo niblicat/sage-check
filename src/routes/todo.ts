@@ -1,7 +1,13 @@
-import tasks from '$lib/tasks.json';
-import * as fs from 'fs';
+import { writable } from 'svelte/store';
 
-const taskpath = '$lib/tasks.json';
+export const lastID = writable(0);
+
+export function incrementLastID() {
+    lastID.update((n) => n += 1);
+}
+export function overwriteLastID(num: number) {
+    lastID.set(num);
+}
 
 export interface Task {
     id: number,
@@ -10,14 +16,3 @@ export interface Task {
     sub: Task[]
 };
 
-export function overwriteTodos(taskData: Task[]) {
-    let writeData = JSON.stringify(taskData, null, 2);
-    fs.writeFileSync(taskpath, writeData);
-}
-
-export function deleteTodo(id: number) {
-
-}
-export function addTodo(id: number) {
-
-}

@@ -3,6 +3,7 @@
     import {dndzone} from "svelte-dnd-action";
     import * as todo from './todo';
     import type { Task } from './todo';
+    import { lastID } from "./todo";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -25,12 +26,27 @@
     function addChild(title: string, subItems: Task[]) {
         // get next id from db
         let newTask: Task = {
-            "id": 101,
+            "id": $lastID + 1,
             "title": title,
             "completed": false,
             "sub": []
         }
+        todo.incrementLastID();
         subItems.push(newTask);
+
+        items = items;
+        dispatch('updateParent', items);
+    }
+    function addTask(title: string) {
+        // get next id from db
+        let newTask: Task = {
+            "id": $lastID + 1,
+            "title": title,
+            "completed": false,
+            "sub": []
+        }
+        todo.incrementLastID();
+        items.push(newTask);
 
         items = items;
         dispatch('updateParent', items);
@@ -84,6 +100,14 @@ on:click={() => {
 }}
 >
     L{level}
+</button>
+<button
+style="width:120px; height: 10px; font-size: 6px;"
+on:click={() => {
+    addTask("testtask")
+}}
+>
+    Append task
 </button>
 
 <style>

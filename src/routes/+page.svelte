@@ -1,28 +1,41 @@
 <script lang="ts">
     import TaskList from './tasklist.svelte';
-    import tasks from '$lib/tasks.json';
-    import * as todo from './todo';
-    import type { Task } from './todo';
+    import testtasks from '$lib/tasks.json';
+    import { overwriteLastID, type Task } from './todo';
     import { onMount } from 'svelte';
 
-    var workingTasks: Task[] = tasks;
+    var tasks: Task[] = testtasks;
     onMount(() => {
-        
+        overwriteLastID(5);
     });
+
+    function addTask(title: string) {
+        // get next id from db
+        let newTask: Task = {
+            "id": 101,
+            "title": title,
+            "completed": false,
+            "sub": []
+        }
+        tasks = [...tasks, newTask];
+
+        console.log('Tasks after adding:', JSON.stringify(tasks, null, 2));
+    }
 
 </script>
 
 <h1>Todo</h1>
 <TaskList
-tasks={workingTasks}
-level={0}
+tasks={tasks}
 on:updateTodos={(e) => {
-    alert(JSON.stringify(e.detail, null, 2));
-    workingTasks = e.detail;
+    console.log('Received updateTodos event:', e.detail);
+    tasks = e.detail;
 }}
 />
 <br>
 <br>
+
+
 <button
 on:click={() => {
     alert(JSON.stringify(tasks, null, 2));
