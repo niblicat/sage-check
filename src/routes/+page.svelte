@@ -4,24 +4,28 @@
     import { overwriteLastID, type Task } from './todo';
     import { onMount } from 'svelte';
     import { enhance } from '$app/forms';
-    import type { PageData } from './$types';
+    import type { PageData, ActionData } from './$types';
+    import { lastID } from "./todo";
 
     export let data: PageData;
+    export let form: ActionData;
     var tasks: Task[] = [];
     var parsedTasks: Task[];
     onMount(() => {
-        overwriteLastID(5);
-        if (typeof data.tasks === "string") {
+        
+        if (typeof data.tasks === "string" && typeof data.lastID === "string") {
             parsedTasks = JSON.parse(data.tasks);
+            lastID.set(Number(data.lastID));
 
             console.log("tasks from cookie: " + data.tasks);
+            console.log("lastID from cookie: " + data.lastID);
             tasks = parsedTasks;
             stringifiedTasks = JSON.stringify(tasks, null);
         }
 
     });
 
-    var stringifiedTasks = JSON.stringify(tasks, null);
+    $: stringifiedTasks = JSON.stringify(tasks, null);
 
 </script>
 
@@ -33,7 +37,6 @@ level={0}
 on:updateParent={(e) => {
     console.log('Received updateParent event:', e.detail);
     tasks = e.detail;
-    stringifiedTasks = JSON.stringify(tasks, null);
 }}
 />
 {/key}
@@ -51,7 +54,7 @@ on:click={() => {
 
 <button
 on:click={() => {
-    tasks = parsedTasks;
+    parsedTasks = parsedTasks;
 }}
 >
     Force Update
@@ -59,7 +62,8 @@ on:click={() => {
 <button
 on:click={() => {
     tasks = testtasks;
-    parsedTasks = parsedTasks;
+    parsedTasks = tasks;
+    lastID.set(5);
 }}
 >
     Use Template
@@ -67,9 +71,11 @@ on:click={() => {
 
 <form method="POST" action=?/save use:enhance>
     <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
+    <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
     <button type="submit">
         save tasks
     </button>
+    {#if form?.invalid}invalid submission{/if}
 </form>
 <form method="POST" action=?/delete use:enhance>
     <button type="submit">
