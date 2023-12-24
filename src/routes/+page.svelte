@@ -9,19 +9,6 @@
         overwriteLastID(5);
     });
 
-    function addTask(title: string) {
-        // get next id from db
-        let newTask: Task = {
-            "id": 101,
-            "title": title,
-            "completed": false,
-            "sub": []
-        }
-        tasks = [...tasks, newTask];
-
-        console.log('Tasks after adding:', JSON.stringify(tasks, null, 2));
-    }
-
 </script>
 
 <h1>Todo</h1>
