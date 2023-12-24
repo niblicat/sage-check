@@ -9,7 +9,7 @@
     const dispatch = createEventDispatcher();
 
     export let tasks: Task[] = [];
-    export let level = 0;
+    export let level: number;
 
     var items = tasks;
     var flipDurationMs = 100;
@@ -46,7 +46,7 @@
             "sub": []
         }
         todo.incrementLastID();
-        items.push(newTask);
+        items = [...items, newTask]
 
         items = items;
         dispatch('updateParent', items);
@@ -71,6 +71,7 @@
 </script>
 
 <ul use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+    {#key items}
     {#each items as item (item.id)}
         <li animate:flip="{{duration: flipDurationMs}}">
             <slot />
@@ -84,13 +85,14 @@
                 level={level + 1}
                 on:updateParent={(e) => {
                     item.sub = e.detail;
-                    // alert(JSON.stringify(items, null, 2) + ' level=' + level);
+                    console.log(JSON.stringify(items, null, 2) + ' level=' + level);
                     dispatch('updateParent', items);
                 }}
                 />
             {/if}
         </li>
     {/each}
+    {/key}
 </ul>
 
 <button
