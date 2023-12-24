@@ -37,6 +37,7 @@ level={0}
 on:updateParent={(e) => {
     console.log('Received updateParent event:', e.detail);
     tasks = e.detail;
+    parsedTasks = parsedTasks;
 }}
 />
 {/key}

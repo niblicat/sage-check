@@ -36,6 +36,7 @@ export const actions = {
     },
     delete: async ({ cookies }) => {
         cookies.delete('tasks', {path: '/'});
+        cookies.delete('lastID', {path: '/'});
         return { success: true };
     }
 } satisfies Actions;
