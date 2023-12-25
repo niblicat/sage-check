@@ -88,7 +88,7 @@
                         dispatch('updateParent', items);
                     }}
                     />
-                </div>
+            </div>
         {/each}
     </section>
 {/if}

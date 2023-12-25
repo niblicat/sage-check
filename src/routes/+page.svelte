@@ -61,50 +61,54 @@
         {/key}
     </main>
 
-    <button
-    on:click={() => {
-        alert(stringifiedTasks);
-    }}
-    >
-        Overall Description
-    </button>
-
-    <button
-    on:click={() => {
-        parsedTasks = parsedTasks;
-    }}
-    >
-        Force Update
-    </button>
-    <button
-    on:click={() => {
-        tasks = testtasks;
-        parsedTasks = tasks;
-        lastID.set(5);
-    }}
-    >
-        Use Template
-    </button>
-
-    <form method="POST" action=?/save use:enhance>
-        <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
-        <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-        <button type="submit">
-            save tasks
+    <div>
+    
+        <button
+        on:click={() => {
+            alert(stringifiedTasks);
+        }}
+        >
+            Overall Description
         </button>
-        {#if form?.invalid}invalid submission{/if}
-    </form>
-    <form method="POST" action=?/delete use:enhance>
-        <button type="submit">
-            delete tasks
+    
+        <button
+        on:click={() => {
+            parsedTasks = parsedTasks;
+        }}
+        >
+            Force Update
         </button>
-    </form>
+        <button
+        on:click={() => {
+            tasks = testtasks;
+            parsedTasks = tasks;
+            lastID.set(5);
+        }}
+        >
+            Use Template
+        </button>
+    
+        <form method="POST" action=?/save use:enhance>
+            <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
+            <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
+            <button type="submit">
+                save tasks
+            </button>
+            {#if form?.invalid}invalid submission{/if}
+        </form>
+        <form method="POST" action=?/delete use:enhance>
+            <button type="submit">
+                delete tasks
+            </button>
+        </form>
+    
+        <DynamicButton
+        on:click={() => alert("bruh")}
+        >
+            testbutton
+        </DynamicButton>
 
-    <DynamicButton
-    on:click={() => alert("bruh")}
-    >
-        testbutton
-    </DynamicButton>
+    </div>
 </body>
 </html>
 
@@ -131,20 +135,34 @@
         height: 100vh;
         width: 100vw;
         display: flex;
-        flex-direction: row;
+        flex-flow: row wrap;
     }
 
-    * {
+    *, :global(*) {
         margin: 0px;
         padding: 0px;
         font-family: ExoRegular, Arial, Helvetica, sans-serif;
-        --fontsize: 20px;
+        --fontsize: 16px;
+        transition: all .2s ease-in-out;
+        animation: fadeIn .5s;
+        -webkit-animation: fadeIn .5s;
+        -moz-animation: fadeIn .5s;
+        -o-animation: fadeIn .5s;
+        -ms-animation: fadeIn .5s;
     }
 
     button, :global(button) {
         border-radius: 25px;
+        cursor: pointer;
     }
 
-    
+    main {
+        padding: 2em;
+        align-self: center;
+        justify-self: center;
+        flex-basis: 100%;
+        background-color: var(--main);
+        border-radius: 25px;
+    }
 
 </style>
