@@ -88,7 +88,7 @@
             R
             </DynamicButton>
             <DynamicButton
-            on:click={() => addChild("test", item.sub)}
+            on:click={() => addChild("new task", item.sub)}
             class="regular"
             oclass="round"
             >
@@ -132,7 +132,7 @@
     class="regular"
     oclass="container"
     on:click={() => {
-        addTask("testtask")
+        addTask("new task")
     }}
     >
         new

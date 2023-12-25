@@ -54,28 +54,28 @@
         <h1>Todo</h1>
 
         <div class="task-box">
-        {#key parsedTasks}
-        <TaskList
-        level={0}
-        {tasks}
-        {debug}
-        on:updateParent={(e) => {
-            console.log('Received updateParent event:', e.detail);
-            tasks = e.detail;
-            parsedTasks = parsedTasks;
-            setTimeout(() => {
-                
-                saveform.requestSubmit();
-            }, 500);
-        }}
-        />
-        {/key}
+            {#key parsedTasks}
+            <TaskList
+            level={0}
+            {tasks}
+            {debug}
+            on:updateParent={(e) => {
+                console.log('Received updateParent event:', e.detail);
+                tasks = e.detail;
+                parsedTasks = parsedTasks;
+                setTimeout(() => {
+                    
+                    saveform.requestSubmit();
+                }, 500);
+            }}
+            />
+            {/key}
         <div>
 
     </main>
     </div>
 
-    <form method="POST" action=?/save bind:this={saveform} use:enhance>
+    <form class="hidden" method="POST" action=?/save bind:this={saveform} use:enhance>
         <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
         <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
         {#if form?.invalid}invalid submission{/if}
@@ -84,7 +84,6 @@
 
     {#if debug}
         <div>
-        
             <button
             class="regular"
             on:click={() => {
@@ -146,7 +145,7 @@
     html, body {
         margin: 0px;
         padding: 0px;
-        background-color: var(--background);
+        background-color: var(--altbackground);
         background-image: linear-gradient(var(--gradientdirection, 'to bottom right'), var(--background), var(--altbackground));
     }
 
@@ -164,8 +163,6 @@
         color: var(--text);
         height: 100vh;
         width: 100vw;
-        display: flex;
-        flex-flow: row wrap;
     }
 
     *, :global(*) {
@@ -209,11 +206,6 @@
         border: 2px solid var(--main);
     }
 
-    :global([type="checkbox"]) {
-        cursor: pointer;
-        background-color: aqua;
-    }
-
     @media(hover: hover) {
         button.regular:hover, button.regular:focus-visible, :global(button.regular:hover), :global(button.regular:focus-visible) {
             background-color: var(--altbackground);
@@ -222,20 +214,26 @@
     }
 
     .main-container {
-        align-self: center;
-        justify-self: center;
-        flex-basis: 100%;
-        margin: 4vh 4vw 4vh 4vw;
+        height: 92vh;
+        width: 92vw;
+        padding: 4vh 4vw 4vh 4vw;
+        overflow: hidden;
     }
 
     main {
+        min-width: 88vw;
+        min-height: 82vh;
+        max-height: 82vh;
         padding: 2em;
         background-color: var(--main);
         border: 2px solid var(--input);
         border-radius: 25px;
-        overflow: scroll !important;
+        overflow: scroll;
     }
     .hidden {
+        position: absolute;
+        width: 0;
+        height: 0;
         visibility: hidden;
     }
 
