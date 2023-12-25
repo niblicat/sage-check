@@ -71,8 +71,7 @@
 
 </script>
 
-{#if items.length > 0}
-    <section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+    <section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
         {#each items as item (item.id)}
             <div animate:flip="{{duration: flipDurationMs}}">
                 <slot />
@@ -92,7 +91,6 @@
             </div>
         {/each}
     </section>
-{/if}
 
 {#if debug}
 <button
@@ -120,17 +118,15 @@ on:click={() => {
 section {
     width: auto;
     max-width: 400px;
-    border: 0px solid black;
     padding: 0.4em;
     overflow-y: auto ;
     height: auto;
-    background-color: rgba(100, 100, 100, 0.2); 
+    background-color: #0228591A;
+    border-radius: 25px;
 }
 div {
     width: 90%;
     padding: 0.3em;
-    border: 0px solid blue;
     margin: 0.15em 0;
-    background-color: rgba(00, 100, 100, 0.2);
 }
 </style>
