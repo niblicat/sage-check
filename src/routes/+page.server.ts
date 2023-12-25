@@ -1,7 +1,5 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import {setDebugMode} from "svelte-dnd-action";
-setDebugMode(true);
 
 export const load: PageServerLoad = async ({ cookies }) => {
     const tasks = cookies.get('tasks');

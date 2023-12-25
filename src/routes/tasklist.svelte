@@ -10,6 +10,7 @@
 
     export let tasks: Task[] = [];
     export let level: number;
+    export let debug: boolean = false;
 
     var items = tasks;
     var flipDurationMs = 100;
@@ -93,6 +94,7 @@
     </section>
 {/if}
 
+{#if debug}
 <button
 style="width:120px; height: 10px; font-size: 6px;"
 on:click={() => {
@@ -101,6 +103,7 @@ on:click={() => {
 >
     L{level}
 </button>
+{/if}
 {#if level === 0}
     <button
     style="width:120px; height: 10px; font-size: 6px;"
@@ -119,16 +122,15 @@ section {
     max-width: 400px;
     border: 0px solid black;
     padding: 0.4em;
-    /* this will allow the dragged element to scroll the list */
     overflow-y: auto ;
     height: auto;
-    background-color: rgba(100, 100, 100, 0.1); 
+    background-color: rgba(100, 100, 100, 0.2); 
 }
 div {
     width: 90%;
     padding: 0.3em;
     border: 0px solid blue;
     margin: 0.15em 0;
-    background-color: rgba(00, 100, 100, 0.1);
+    background-color: rgba(00, 100, 100, 0.2);
 }
 </style>

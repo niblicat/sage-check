@@ -9,6 +9,8 @@
     import DynamicButton from './dynamicbutton.svelte';
     import { styles } from './themes.svelte';
 
+    const debug = false;
+
     export let data: PageData;
     export let form: ActionData;
     var tasks: Task[] = [];
@@ -45,6 +47,7 @@
 <html lang="en">
 <body class={$styles.hasgradient === false ? "nogradient" : ""} style={myStyles}>
 
+    <div class="main-container">
     <main>
         <h1>Todo</h1>
 
@@ -52,6 +55,7 @@
         <TaskList
         level={0}
         {tasks}
+        {debug}
         on:updateParent={(e) => {
             console.log('Received updateParent event:', e.detail);
             tasks = e.detail;
@@ -60,7 +64,9 @@
         />
         {/key}
     </main>
+    </div>
 
+    {#if debug}
     <div>
     
         <button
@@ -104,11 +110,15 @@
     
         <DynamicButton
         on:click={() => alert("bruh")}
+        class="regular"
+        oclass="container"
         >
             testbutton
         </DynamicButton>
 
     </div>
+    {/if}
+
 </body>
 </html>
 
@@ -152,17 +162,48 @@
     }
 
     button, :global(button) {
-        border-radius: 25px;
         cursor: pointer;
+    }
+
+    button.container, :global(button.container) {
+        width: 60px;
+        height: 28px;
+    }
+    button.regular, :global(button.regular) {
+        border-radius: 25px;
+        border: 2px solid var(--main);
+        color: var(--text);
+        background-color: var(--input);
+    }
+
+    button:disabled, :global(button:disabled) {
+        color: var(--neutral);
+    }
+
+    button.regular:not(:focus-visible), :global(button.regular:not(:focus-visible)) {
+        background-color: var(--input);
+        border: 2px solid var(--main);
+    }
+
+    @media(hover: hover) {
+        button.regular:hover, button.regular:focus-visible, :global(button.regular:hover), :global(button.regular:focus-visible) {
+            background-color: var(--altbackground);
+            border: 2px solid var(--input);
+        }
+    }
+
+    .main-container {
+        align-self: center;
+        justify-self: center;
+        flex-basis: 100%;
+        margin: 0px 4vw 0px 4vw
     }
 
     main {
         padding: 2em;
-        align-self: center;
-        justify-self: center;
-        flex-basis: 100%;
         background-color: var(--main);
         border-radius: 25px;
+        border: 2px solid var(--input);
     }
 
 </style>

@@ -3,11 +3,9 @@
 
     const dispatch = createEventDispatcher();
 
-    export let height = "60px";
-    export let width = "28px";
-
     let amClicked: boolean = false;
     
+    // prevents duplicate clicks
     function handleClick() {
         if (!amClicked) {
             amClicked = true;
@@ -17,15 +15,12 @@
             }, 5);
         }
     }
-
-    $: cssVarStyles = '--height:' + height + ';' + '--width:' + width + ';'
 </script>
 
 <button
-class="outer"
+class="outer {$$restProps.oclass || ''}"
 tabindex="-1"
 on:click={handleClick}
-style={cssVarStyles}
 >
     <button
     id="{$$restProps.id || ''}"
@@ -39,16 +34,14 @@ style={cssVarStyles}
 
 <style>
     button.outer {
-        width: var(--width);
-        height: var(--height);
         margin: 0;
         background-color: transparent;
         border: 0;
     }
 
     button.inner {
-        width: 100%;
         height: 100%;
+        width: 100%;
         margin: 0;
         padding: 0;
     }
