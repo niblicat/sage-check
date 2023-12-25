@@ -22,12 +22,12 @@
             console.log("tasks from cookie: " + data.tasks);
             console.log("lastID from cookie: " + data.lastID);
             tasks = parsedTasks;
-            stringifiedTasks = JSON.stringify(tasks, null);
+            stringifiedTasks = JSON.stringify(tasks, null, 2);
         }
 
     });
 
-    $: stringifiedTasks = JSON.stringify(tasks, null);
+    $: stringifiedTasks = JSON.stringify(tasks, null, 2);
     $: myStyles = Object.entries($styles)
         .filter(([key, value]) => typeof value === 'string')
         .map(([key, value]) => `--${key}:${value}`)
@@ -45,22 +45,21 @@
 <html lang="en">
 <body class={$styles.hasgradient === false ? "nogradient" : ""} style={myStyles}>
 
-    <h1>Todo</h1>
+    <main>
+        <h1>Todo</h1>
 
-    {#key parsedTasks}
-    <TaskList
-    level={0}
-    {tasks}
-    on:updateParent={(e) => {
-        console.log('Received updateParent event:', e.detail);
-        tasks = e.detail;
-        parsedTasks = parsedTasks;
-    }}
-    />
-    {/key}
-    <br>
-    <br>
-
+        {#key parsedTasks}
+        <TaskList
+        level={0}
+        {tasks}
+        on:updateParent={(e) => {
+            console.log('Received updateParent event:', e.detail);
+            tasks = e.detail;
+            parsedTasks = parsedTasks;
+        }}
+        />
+        {/key}
+    </main>
 
     <button
     on:click={() => {
@@ -116,7 +115,6 @@
         padding: 0px;
         background-color: var(--background);
         background-image: linear-gradient(var(--gradientdirection, 'to bottom right'), var(--background), var(--altbackground));
-        --fontsize: 20px;
     }
 
     .nogradient {
@@ -132,11 +130,21 @@
         color: var(--text);
         height: 100vh;
         width: 100vw;
+        display: flex;
+        flex-direction: row;
     }
 
     * {
         margin: 0px;
         padding: 0px;
+        font-family: ExoRegular, Arial, Helvetica, sans-serif;
+        --fontsize: 20px;
     }
+
+    button, :global(button) {
+        border-radius: 25px;
+    }
+
+    
 
 </style>

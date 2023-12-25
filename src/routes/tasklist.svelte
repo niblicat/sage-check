@@ -1,6 +1,6 @@
 <script lang="ts">
     import {flip} from "svelte/animate";
-    import {dndzone} from "svelte-dnd-action";
+    import { dndzone } from "svelte-dnd-action";
     import * as todo from './todo';
     import type { Task } from './todo';
     import { lastID } from "./todo";
@@ -70,30 +70,28 @@
 
 </script>
 
-<ul use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
-    {#key items}
-    {#each items as item (item.id)}
-        <li animate:flip="{{duration: flipDurationMs}}">
-            <slot />
-            {item.title}
-            <button on:click={() => toggleComplete(item)}>✓</button>
-            <button on:click={() => addChild("test", item.sub)}>+</button>
-            {#if item.completed}<button on:click={() => removeSelf(item)}>-</button>{/if}
-            {#if item.sub.length > 0}
-                <svelte:self
-                tasks={item.sub}
-                level={level + 1}
-                on:updateParent={(e) => {
-                    item.sub = e.detail;
-                    console.log(JSON.stringify(items, null, 2) + ' level=' + level);
-                    dispatch('updateParent', items);
-                }}
-                />
-            {/if}
-        </li>
-    {/each}
-    {/key}
-</ul>
+{#if items.length > 0}
+    <section use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+        {#each items as item (item.id)}
+            <div animate:flip="{{duration: flipDurationMs}}">
+                <slot />
+                {item.title}
+                <button on:click={() => toggleComplete(item)}>✓</button>
+                <button on:click={() => addChild("test", item.sub)}>+</button>
+                {#if item.completed}<button on:click={() => removeSelf(item)}>-</button>{/if}
+                    <svelte:self
+                    tasks={item.sub}
+                    level={level + 1}
+                    on:updateParent={(e) => {
+                        item.sub = e.detail;
+                        console.log(JSON.stringify(items, null, 2) + ' level=' + level);
+                        dispatch('updateParent', items);
+                    }}
+                    />
+                </div>
+        {/each}
+    </section>
+{/if}
 
 <button
 style="width:120px; height: 10px; font-size: 6px;"
@@ -103,15 +101,34 @@ on:click={() => {
 >
     L{level}
 </button>
-<button
-style="width:120px; height: 10px; font-size: 6px;"
-on:click={() => {
-    addTask("testtask")
-}}
->
-    Append task
-</button>
+{#if level === 0}
+    <button
+    style="width:120px; height: 10px; font-size: 6px;"
+    on:click={() => {
+        addTask("testtask")
+    }}
+    >
+        Append task
+    </button>
+{/if}
 
-<style>
 
+<style>	
+section {
+    width: auto;
+    max-width: 400px;
+    border: 0px solid black;
+    padding: 0.4em;
+    /* this will allow the dragged element to scroll the list */
+    overflow-y: auto ;
+    height: auto;
+    background-color: rgba(100, 100, 100, 0.1); 
+}
+div {
+    width: 90%;
+    padding: 0.3em;
+    border: 0px solid blue;
+    margin: 0.15em 0;
+    background-color: rgba(00, 100, 100, 0.1);
+}
 </style>
