@@ -11,6 +11,8 @@
 
     const debug = false;
 
+    let saveform: HTMLFormElement;
+
     export let data: PageData;
     export let form: ActionData;
     var tasks: Task[] = [];
@@ -61,6 +63,10 @@
             console.log('Received updateParent event:', e.detail);
             tasks = e.detail;
             parsedTasks = parsedTasks;
+            setTimeout(() => {
+                
+                saveform.requestSubmit();
+            }, 500);
         }}
         />
         {/key}
@@ -68,6 +74,13 @@
 
     </main>
     </div>
+
+    <form method="POST" action=?/save bind:this={saveform} use:enhance>
+        <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
+        <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
+        {#if form?.invalid}invalid submission{/if}
+        <button class="hidden" type="submit"/>
+    </form>
 
     {#if debug}
         <div>
@@ -221,6 +234,9 @@
         border: 2px solid var(--input);
         border-radius: 25px;
         overflow: scroll !important;
+    }
+    .hidden {
+        visibility: hidden;
     }
 
 </style>
