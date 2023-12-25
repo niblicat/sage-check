@@ -6,6 +6,7 @@
     import { lastID } from "./todo";
     import { createEventDispatcher } from "svelte";
     import Checkbox from "./checkbox.svelte";
+    import DynamicButton from "./dynamicbutton.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -59,66 +60,89 @@
 
         items = items;
         dispatch('updateParent', items);
-
     }
-    function toggleComplete(item: Task) {
-        // flip state
-        item.completed = !item.completed;
-
+    function renameTask(item: Task, title: string) {
+        item.title = title;
         items = items;
         dispatch('updateParent', items);
     }
 
 </script>
 
-    <section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
-        {#each items as item (item.id)}
-            <div animate:flip="{{duration: flipDurationMs}}">
-                <Checkbox bind:checked={item.completed}>
-                    {item.title}
-                </Checkbox>
-                <slot />
-                <button on:click={() => addChild("test", item.sub)}>+</button>
-                {#if item.completed}<button on:click={() => removeSelf(item)}>-</button>{/if}
-                    <svelte:self
-                    tasks={item.sub}
-                    level={level + 1}
-                    on:updateParent={(e) => {
-                        item.sub = e.detail;
-                        console.log(JSON.stringify(items, null, 2) + ' level=' + level);
-                        dispatch('updateParent', items);
-                    }}
-                    />
-            </div>
-        {/each}
-    </section>
+<section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+    {#each items as item (item.id)}
+        <div animate:flip="{{duration: flipDurationMs}}">
+            <Checkbox bind:checked={item.completed}>
+                {item.title}
+            </Checkbox>
+            <slot />
+            <DynamicButton
+            on:click={() => {
+                let newTitle = prompt('New task name');
+                if (typeof newTitle == 'string')
+                    renameTask(item, newTitle)
+            }}
+            class="regular"
+            oclass="round"
+            >
+            R
+            </DynamicButton>
+            <DynamicButton
+            on:click={() => addChild("test", item.sub)}
+            class="regular"
+            oclass="round"
+            >
+            +
+            </DynamicButton>
+            {#if item.completed}
+                <DynamicButton
+                on:click={() => removeSelf(item)}
+                class="regular"
+                oclass="round"
+                >
+                -
+                </DynamicButton>
+            {/if}
+                <svelte:self
+                tasks={item.sub}
+                level={level + 1}
+                on:updateParent={(e) => {
+                    item.sub = e.detail;
+                    if (debug) console.log(JSON.stringify(items, null, 2) + ' level=' + level);
+                    dispatch('updateParent', items);
+                }}
+                />
+        </div>
+    {/each}
+</section>
 
 {#if debug}
-<button
-style="width:120px; height: 10px; font-size: 6px;"
-on:click={() => {
-    alert(JSON.stringify(items, null, 2));
-}}
->
-    L{level}
-</button>
+    <DynamicButton
+    class="regular"
+    oclass="container"
+    on:click={() => {
+        alert(JSON.stringify(items, null, 2));
+    }}
+    >
+        L{level}
+    </DynamicButton>
 {/if}
 {#if level === 0}
-    <button
-    style="width:120px; height: 10px; font-size: 6px;"
+    <DynamicButton
+    class="regular"
+    oclass="container"
     on:click={() => {
         addTask("testtask")
     }}
     >
-        Append task
-    </button>
+        new
+    </DynamicButton>
 {/if}
 
 
-<style>	
+<style>
 section {
     width: auto;
-    max-width: 400px;
     padding: 0.4em;
     overflow-y: auto ;
     height: auto;

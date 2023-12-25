@@ -1,21 +1,16 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
 
     export let checked: boolean = false;
 
-    const dispatch = createEventDispatcher();
 </script>
 
-<label
-class={$$restProps.lclass || ''}
->
+<label class={$$restProps.lclass || ''}>
     <slot />
     <input
     type="checkbox"
     id={$$restProps.id || ''}
     class={$$restProps.class || ''}
     title={$$restProps.title || ''}
-    on:click={() => dispatch('click')}
     bind:checked={checked}
     >
     <span class={$$restProps.sclass || ''} />
@@ -57,12 +52,10 @@ class={$$restProps.lclass || ''}
     label:hover input ~ span {
         background-color: #ccc;
     }
-    input:focus + span
-    {
+    input:focus + span {
       background-color: #ccc;
     }
 
-    /* When the checkbox is checked, add a blue background */
     label input:checked ~ span {
         background-color: #2196F3;
     }
@@ -74,12 +67,10 @@ class={$$restProps.lclass || ''}
         display: none;
     }
 
-    /* Show the checkmark when checked */
     label input:checked ~ span:after {
         display: block;
     }
 
-    /* Style the checkmark/indicator */
     label span:after {
         left: 6px;
         top: 2px;
@@ -100,7 +91,6 @@ class={$$restProps.lclass || ''}
             -ms-transform: scale(1.1);
         }
     }
-
     span:active {
         transform: scale(0.9);
         -webkit-transform: scale(0.9);

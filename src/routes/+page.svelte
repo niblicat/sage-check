@@ -9,7 +9,7 @@
     import DynamicButton from './dynamicbutton.svelte';
     import { styles } from './themes.svelte';
 
-    const debug = true;
+    const debug = false;
 
     export let data: PageData;
     export let form: ActionData;
@@ -51,6 +51,7 @@
     <main>
         <h1>Todo</h1>
 
+        <div class="task-box">
         {#key parsedTasks}
         <TaskList
         level={0}
@@ -63,63 +64,65 @@
         }}
         />
         {/key}
+        <div>
+
     </main>
     </div>
 
     {#if debug}
-    <div>
-    
-        <button
-        class="regular"
-        on:click={() => {
-            alert(stringifiedTasks);
-        }}
-        >
-            Overall Description
-        </button>
-    
-        <button
-        class="regular"
-        on:click={() => {
-            parsedTasks = parsedTasks;
-        }}
-        >
-            Force Update
-        </button>
-        <button
-        class="regular"
-        on:click={() => {
-            tasks = testtasks;
-            parsedTasks = tasks;
-            lastID.set(5);
-        }}
-        >
-            Use Template
-        </button>
-    
-        <form method="POST" action=?/save use:enhance>
-            <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
-            <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-            <button class="regular" type="submit">
-                save tasks
+        <div>
+        
+            <button
+            class="regular"
+            on:click={() => {
+                alert(stringifiedTasks);
+            }}
+            >
+                Overall Description
             </button>
-            {#if form?.invalid}invalid submission{/if}
-        </form>
-        <form method="POST" action=?/delete use:enhance>
-            <button class="regular" type="submit">
-                delete tasks
+        
+            <button
+            class="regular"
+            on:click={() => {
+                parsedTasks = parsedTasks;
+            }}
+            >
+                Force Update
             </button>
-        </form>
-    
-        <DynamicButton
-        on:click={() => alert("bruh")}
-        class="regular"
-        oclass="container"
-        >
-            testbutton
-        </DynamicButton>
+            <button
+            class="regular"
+            on:click={() => {
+                tasks = testtasks;
+                parsedTasks = tasks;
+                lastID.set(5);
+            }}
+            >
+                Use Template
+            </button>
+        
+            <form method="POST" action=?/save use:enhance>
+                <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
+                <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
+                <button class="regular" type="submit">
+                    save tasks
+                </button>
+                {#if form?.invalid}invalid submission{/if}
+            </form>
+            <form method="POST" action=?/delete use:enhance>
+                <button class="regular" type="submit">
+                    delete tasks
+                </button>
+            </form>
+        
+            <DynamicButton
+            on:click={() => alert("bruh")}
+            class="regular"
+            oclass="container"
+            >
+                testbutton
+            </DynamicButton>
 
-    </div>
+        </div>
     {/if}
 
 </body>
@@ -141,6 +144,7 @@
     :global(html), :global(body) {
         margin: 0px;
         padding: 0px;
+        overflow: hidden;
     }
 
     body {
@@ -169,8 +173,12 @@
     }
 
     :global(button.container) {
-        width: 60px;
         height: 28px;
+        width: 60px;
+    }
+    :global(button.round) {
+        height: 20px;
+        width: 20px;
     }
     button.regular, :global(button.regular) {
         border-radius: 25px;
@@ -204,16 +212,15 @@
         align-self: center;
         justify-self: center;
         flex-basis: 100%;
-        margin: 0px 4vw 0px 4vw
+        margin: 4vh 4vw 4vh 4vw;
     }
 
     main {
         padding: 2em;
         background-color: var(--main);
-        border-radius: 25px;
         border: 2px solid var(--input);
+        border-radius: 25px;
+        overflow: scroll !important;
     }
-
-
 
 </style>
