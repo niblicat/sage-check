@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {flip} from "svelte/animate";
+    import { flip } from "svelte/animate";
     import { dndzone } from "svelte-dnd-action";
     import * as todo from './todo';
     import type { Task } from './todo';

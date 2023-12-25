@@ -70,6 +70,7 @@
     <div>
     
         <button
+        class="regular"
         on:click={() => {
             alert(stringifiedTasks);
         }}
@@ -78,6 +79,7 @@
         </button>
     
         <button
+        class="regular"
         on:click={() => {
             parsedTasks = parsedTasks;
         }}
@@ -85,6 +87,7 @@
             Force Update
         </button>
         <button
+        class="regular"
         on:click={() => {
             tasks = testtasks;
             parsedTasks = tasks;
@@ -97,13 +100,13 @@
         <form method="POST" action=?/save use:enhance>
             <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
             <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-            <button type="submit">
+            <button class="regular" type="submit">
                 save tasks
             </button>
             {#if form?.invalid}invalid submission{/if}
         </form>
         <form method="POST" action=?/delete use:enhance>
-            <button type="submit">
+            <button class="regular" type="submit">
                 delete tasks
             </button>
         </form>
@@ -165,7 +168,7 @@
         cursor: pointer;
     }
 
-    button.container, :global(button.container) {
+    :global(button.container) {
         width: 60px;
         height: 28px;
     }
