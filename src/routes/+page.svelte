@@ -9,7 +9,7 @@
     import DynamicButton from './dynamicbutton.svelte';
     import { styles } from './themes.svelte';
 
-    const debug = false;
+    const debug = true;
 
     export let data: PageData;
     export let form: ActionData;
@@ -188,6 +188,11 @@
         border: 2px solid var(--main);
     }
 
+    :global([type="checkbox"]) {
+        cursor: pointer;
+        background-color: aqua;
+    }
+
     @media(hover: hover) {
         button.regular:hover, button.regular:focus-visible, :global(button.regular:hover), :global(button.regular:focus-visible) {
             background-color: var(--altbackground);
@@ -208,5 +213,7 @@
         border-radius: 25px;
         border: 2px solid var(--input);
     }
+
+
 
 </style>

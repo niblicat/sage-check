@@ -5,6 +5,7 @@
     import type { Task } from './todo';
     import { lastID } from "./todo";
     import { createEventDispatcher } from "svelte";
+    import Checkbox from "./checkbox.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -25,7 +26,6 @@
     }
     
     function addChild(title: string, subItems: Task[]) {
-        // get next id from db
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -74,9 +74,10 @@
     <section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
         {#each items as item (item.id)}
             <div animate:flip="{{duration: flipDurationMs}}">
+                <Checkbox bind:checked={item.completed}>
+                    {item.title}
+                </Checkbox>
                 <slot />
-                {item.title}
-                <button on:click={() => toggleComplete(item)}>✓</button>
                 <button on:click={() => addChild("test", item.sub)}>+</button>
                 {#if item.completed}<button on:click={() => removeSelf(item)}>-</button>{/if}
                     <svelte:self
