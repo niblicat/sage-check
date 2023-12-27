@@ -70,7 +70,7 @@
             }}
             />
             {/key}
-        <div>
+        </div>
 
     </main>
     </div>
@@ -160,6 +160,10 @@
     }
 
     body {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         color: var(--text);
         height: 100vh;
         width: 100vw;
@@ -176,6 +180,7 @@
         -moz-animation: fadeIn .5s;
         -o-animation: fadeIn .5s;
         -ms-animation: fadeIn .5s;
+        box-sizing: border-box;
     }
 
     button, :global(button) {
@@ -216,14 +221,13 @@
     .main-container {
         height: 92vh;
         width: 92vw;
-        padding: 4vh 4vw 4vh 4vw;
+        margin: auto;
         overflow: hidden;
     }
 
     main {
-        min-width: 88vw;
-        min-height: 82vh;
-        max-height: 82vh;
+        width: 100%;
+        height: 100%;
         padding: 2em;
         background-color: var(--main);
         border: 2px solid var(--input);
