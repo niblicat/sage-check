@@ -1,10 +1,36 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
 
     export let checked: boolean = false;
+    export let clickKey: string = 'C';
+    export let dblClickKey: string = 'D';
+
+    const dispatch = createEventDispatcher();
 
 </script>
 
-<label class={$$restProps.lclass || ''}>
+<button
+on:click={() => {
+    checked = !checked;
+    dispatch('click')
+}}
+on:dblclick={() => dispatch('dblclick')}
+on:keydown={(e) => {
+    switch (e.key) {
+        case clickKey:
+            checked = !checked
+            dispatch('click')
+            break;
+        case dblClickKey:
+            dispatch('click')
+            break;
+
+    }
+}}
+class={$$restProps.lclass || ''}
+role="checkbox"
+aria-checked={checked}
+>
     <slot />
     <input
     type="checkbox"
@@ -12,12 +38,24 @@
     class={$$restProps.class || ''}
     title={$$restProps.title || ''}
     bind:checked={checked}
+    tabindex="-1"
     >
     <span class={$$restProps.sclass || ''} />
-</label>
+</button>
 
 <style>
-    label {
+    button {
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        overflow: visible;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        line-height: normal;
+        -webkit-font-smoothing: inherit;
+        -moz-osx-font-smoothing: inherit;
         position: relative;
         padding-left: 25px;
         margin-bottom: 12px;
@@ -29,7 +67,7 @@
     }
 
     /* Hide the browser's default checkbox */
-        label input {
+        button input {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -48,30 +86,25 @@
         background-color: #eee;
     }
 
-    /* On mouse-over, add a grey background color */
-    label:hover input ~ span {
-        background-color: #ccc;
-    }
-    input:focus + span {
+    input:focus + span, button:hover > span, button:focus > span {
       background-color: #ccc;
     }
 
-    label input:checked ~ span {
+    button input:checked ~ span {
         background-color: #2196F3;
     }
 
-    /* Create the checkmark/indicator (hidden when not checked) */
     span:after {
         content: "";
         position: absolute;
         display: none;
     }
 
-    label input:checked ~ span:after {
+    button input:checked ~ span:after {
         display: block;
     }
 
-    label span:after {
+    button span:after {
         left: 6px;
         top: 2px;
         width: 5px;
@@ -82,8 +115,9 @@
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
     } 
+
     @media(hover: hover) {
-        span:hover, span:focus-visible, input:focus + span {
+        span:hover, span:focus-visible, button:focus > span {
             transform: scale(1.1);
             -webkit-transform: scale(1.1);
             -moz-transform: scale(1.1);

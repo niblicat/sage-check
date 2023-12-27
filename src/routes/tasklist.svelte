@@ -72,7 +72,14 @@
 <section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
     {#each items as item (item.id)}
         <div animate:flip="{{duration: flipDurationMs}}">
-            <Checkbox bind:checked={item.completed}>
+            <Checkbox
+            bind:checked={item.completed}
+            on:dblclick={() => {
+                let newTitle = prompt('New task name');
+                if (typeof newTitle == 'string')
+                    renameTask(item, newTitle)
+            }}
+            >
                 {item.title}
             </Checkbox>
             <slot />
