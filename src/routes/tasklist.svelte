@@ -138,7 +138,9 @@
     class="regular"
     oclass="container"
     on:click={() => {
-        addTask("new task")
+        let title = prompt('New task name');
+            if (typeof title == 'string')
+        addTask(title)
     }}
     >
         new

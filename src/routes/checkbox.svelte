@@ -27,6 +27,8 @@ on:keydown={(e) => {
 
     }
 }}
+on:mouseup={() => dispatch('mouseup')}
+on:mousedown={() => dispatch('mousedown')}
 class={$$restProps.lclass || ''}
 role="checkbox"
 aria-checked={checked}
