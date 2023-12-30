@@ -40,7 +40,7 @@
         dispatch('updateParent', items);
     }
     function addTask(title: string) {
-        // get next id from db
+        alert("yo")
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -48,7 +48,7 @@
             "sub": []
         }
         todo.incrementLastID();
-        items = [...items, newTask]
+        items.push(newTask);
 
         items = items;
         dispatch('updateParent', items);
