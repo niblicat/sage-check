@@ -156,7 +156,7 @@
     :global(html), :global(body) {
         margin: 0px;
         padding: 0px;
-        overflow: hidden;
+        overflow: scroll;
     }
 
     body {
