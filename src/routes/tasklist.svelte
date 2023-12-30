@@ -40,7 +40,6 @@
         dispatch('updateParent', items);
     }
     function addTask(title: string) {
-        alert("yo")
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -157,7 +156,7 @@ section {
     border-radius: 25px;
 }
 div {
-    width: 90%;
+    width: calc(100% - 0.3em);
     padding: 0.3em;
     margin: 0.15em 0;
 }
