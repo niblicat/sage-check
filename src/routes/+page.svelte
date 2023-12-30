@@ -43,7 +43,7 @@
 <svelte:head>
     <link rel="stylesheet" media="screen" href="fonts/fonts.css" type="text/css"/>
     <title>
-        Todos
+        To-do
     </title>
 </svelte:head>
 <html lang="en">
@@ -51,7 +51,7 @@
 
     <div class="main-container">
     <main>
-        <h1>Todo</h1>
+        <h1>To-do</h1>
 
         <div class="task-box">
             {#key parsedTasks}
@@ -220,7 +220,7 @@
 
     .main-container {
         height: 92vh;
-        width: 92vw;
+        width: min(600px, 92vw);
         margin: auto;
         overflow: hidden;
     }
@@ -234,11 +234,17 @@
         border-radius: 25px;
         overflow: scroll;
     }
+
     .hidden {
         position: absolute;
         width: 0;
         height: 0;
         visibility: hidden;
+    }
+
+    h1 {
+        text-align: center;
+        padding: 0.2em;
     }
 
 </style>
