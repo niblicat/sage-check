@@ -84,17 +84,10 @@
             <slot />
             <DynamicButton
             on:click={() => {
-                let newTitle = prompt('New task name');
-                if (typeof newTitle == 'string')
-                    renameTask(item, newTitle)
+                let title = prompt('New task name');
+                if (typeof title == 'string')
+                    addChild(title, item.sub)
             }}
-            class="regular"
-            oclass="round"
-            >
-            R
-            </DynamicButton>
-            <DynamicButton
-            on:click={() => addChild("new task", item.sub)}
             class="regular"
             oclass="round"
             >
@@ -139,8 +132,8 @@
     oclass="container"
     on:click={() => {
         let title = prompt('New task name');
-            if (typeof title == 'string')
-        addTask(title)
+        if (typeof title == 'string')
+            addTask(title);
     }}
     >
         new
