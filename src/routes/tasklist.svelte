@@ -145,7 +145,7 @@
 section {
     width: auto;
     padding: 0.4em;
-    overflow-y: auto ;
+    overflow-y: auto;
     height: auto;
     background-color: #0228591A;
     border-radius: 25px;

@@ -40,21 +40,6 @@
         gradientdirection: 'to bottom right'
     };
 
-    // name: existingThemes.Aurora,
-    //     background: '#6E37A6',
-    //     altbackground: '#F277A4',
-    //     main: '#038C8C',
-    //     accent: '#04BF9D',
-    //     contrast: '#a8287e',
-    //     complement: '#77F280',
-    //     neutral: '#C599F2',
-    //     title: '#fff',
-    //     text: '#fff',
-    //     alttext: '#000',
-    //     input: '#022859',
-    //     altinput: '#04BF9D',
-    //     gradientdirection: 'to bottom right'
-
     export let styles: Writable<Theme> = writable(Aurora);
 
     export function changeTheme(newTheme: Symbol) {
