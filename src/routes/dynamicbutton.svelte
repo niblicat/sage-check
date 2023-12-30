@@ -46,7 +46,6 @@ on:click={handleClick}
         padding: 0;
     }
 
-
     @media(hover: hover) {
         button.inner:hover, button.inner:focus-visible {
             transform: scale(1.1);

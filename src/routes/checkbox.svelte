@@ -68,8 +68,7 @@ aria-checked={checked}
         user-select: none;
     }
 
-    /* Hide the browser's default checkbox */
-        button input {
+    button input {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -77,7 +76,6 @@ aria-checked={checked}
         width: 0;
     }
 
-    /* Create a custom checkbox */
     span {
         position: absolute;
         top: 0;
@@ -127,6 +125,7 @@ aria-checked={checked}
             -ms-transform: scale(1.1);
         }
     }
+
     span:active {
         transform: scale(0.9);
         -webkit-transform: scale(0.9);
@@ -134,6 +133,7 @@ aria-checked={checked}
         -o-transform: scale(0.9);
         -ms-transform: scale(0.9);
     }
+
 </style>
 
 
