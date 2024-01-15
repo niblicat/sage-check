@@ -156,7 +156,7 @@
     :global(html), :global(body) {
         margin: 0px;
         padding: 0px;
-        overflow: scroll;
+        overflow: auto;
     }
 
     body {
@@ -181,6 +181,21 @@
         -o-animation: fadeIn .5s;
         -ms-animation: fadeIn .5s;
         box-sizing: border-box;
+    }
+
+    ::-webkit-scrollbar {
+        width: 16px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--text);
+        border-radius: 25px;
+        border: 6px solid transparent;
+        background-clip: content-box;
     }
 
     button, :global(button) {
@@ -232,7 +247,7 @@
         background-color: var(--main);
         border: 2px solid var(--input);
         border-radius: 25px;
-        overflow: scroll;
+        overflow: auto;
     }
 
     .hidden {
