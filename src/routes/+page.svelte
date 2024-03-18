@@ -10,14 +10,11 @@
 
     const debug = false;
 
-    let saveform: HTMLFormElement;
-
     var tasks: Task[] = [];
     var parsedTasks: Task[];
 
     onMount(() => {
         if (typeof localStorage !== 'undefined') {
-            console.log('bby');
             const savedTasks = localStorage.getItem('tasks');
             const savedLastID = localStorage.getItem('lastID');
             if (savedTasks) {
@@ -25,14 +22,11 @@
                 lastID.set(Number(savedLastID));
                 tasks = parsedTasks;
                 stringifiedTasks = JSON.stringify(tasks, null, 2);
-                console.log(stringifiedTasks);
 
                 const tmp = JSON.stringify(tasks, null, 2);
-                console.log("ANOTHERTEST " + tmp);
             }
             else {
                 const tmp = JSON.stringify(tasks, null, 2);
-                console.log("FAILTEST " + tmp);
             }
             if (savedLastID)
                 lastID.set(parseInt(savedLastID));
@@ -53,14 +47,7 @@
         if (typeof localStorage !== 'undefined') {
             if (stringifiedTasks != "[]") {
                 localStorage.setItem('tasks', stringifiedTasks);
-                console.log(stringifiedTasks);
 
-            }
-
-            const savedTasks = localStorage.getItem('tasks');
-            if (savedTasks) {
-                const tmp = JSON.stringify(tasks, null, 2);
-                console.log("TEST " + tmp);
             }
         }
     }
@@ -68,12 +55,7 @@
         if (typeof localStorage !== 'undefined') {
             if ($lastID != 0) {
                 localStorage.setItem('lastID', $lastID.toString());
-                console.log("lastid" + $lastID);
-                
             }
-            
-
-
         }
     }
 
@@ -100,13 +82,13 @@
             {tasks}
             {debug}
             on:updateParent={(e) => {
-                console.log('Received updateParent event:', e.detail);
                 tasks = e.detail;
                 parsedTasks = parsedTasks;
-                // setTimeout(() => {
-                    
-                //     saveform.requestSubmit();
-                // }, 500);
+            }}
+            on:clearTasks={() => {
+                tasks = [];
+                localStorage.setItem('tasks', "[]");
+                parsedTasks = parsedTasks;
             }}
             />
             {/key}
@@ -114,13 +96,6 @@
 
     </main>
     </div>
-
-    <!-- <form class="hidden" method="POST" action=?/save bind:this={saveform} use:enhance>
-        <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
-        <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-        {#if form?.invalid}invalid submission{/if}
-        <button class="hidden" type="submit"/>
-    </form> -->
 
     {#if debug}
         <div>
@@ -151,20 +126,6 @@
             >
                 Use Template
             </button>
-        
-            <!-- <form method="POST" action=?/save use:enhance>
-                <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
-                <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-                <button class="regular" type="submit">
-                    save tasks
-                </button>
-                {#if form?.invalid}invalid submission{/if}
-            </form>
-            <form method="POST" action=?/delete use:enhance>
-                <button class="regular" type="submit">
-                    delete tasks
-                </button>
-            </form> -->
         
             <DynamicButton
             on:click={() => alert("bruh")}
@@ -288,13 +249,6 @@
         border: 2px solid var(--input);
         border-radius: 25px;
         overflow: auto;
-    }
-
-    .hidden {
-        position: absolute;
-        width: 0;
-        height: 0;
-        visibility: hidden;
     }
 
     h1 {
