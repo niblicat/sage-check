@@ -3,7 +3,6 @@
     import testtasks from '$lib/tasks.json';
     import { type Task } from './todo';
     import { onMount } from 'svelte';
-    import { enhance } from '$app/forms';
 
     import { lastID } from "./todo";
     import DynamicButton from './dynamicbutton.svelte';
@@ -13,14 +12,9 @@
 
     let saveform: HTMLFormElement;
 
-    // export let data: PageData;
-    // export let form: ActionData;
     var tasks: Task[] = [];
     var parsedTasks: Task[];
-    // const initialLastID = () => {
-    //     const savedLastID = localStorage.getItem('lastID');
-    //     return savedLastID ? parseInt(savedLastID, 10): 0;
-    // };
+
     onMount(() => {
         if (typeof localStorage !== 'undefined') {
             console.log('bby');
@@ -46,16 +40,6 @@
                 lastID.set(0);
             
         }
-        
-        // if (typeof data.tasks === "string" && typeof data.lastID === "string") {
-        //     parsedTasks = JSON.parse(data.tasks);
-        //     lastID.set(Number(data.lastID));
-
-        //     console.log("tasks from cookie: " + data.tasks);
-        //     console.log("lastID from cookie: " + data.lastID);
-        //     tasks = parsedTasks;
-        //     stringifiedTasks = JSON.stringify(tasks, null, 2);
-        // }
 
     });
 
