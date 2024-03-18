@@ -4,7 +4,7 @@
     import { type Task } from './todo';
     import { onMount } from 'svelte';
     import { enhance } from '$app/forms';
-    import type { PageData, ActionData } from './$types';
+
     import { lastID } from "./todo";
     import DynamicButton from './dynamicbutton.svelte';
     import { styles } from './themes.svelte';
@@ -13,21 +13,49 @@
 
     let saveform: HTMLFormElement;
 
-    export let data: PageData;
-    export let form: ActionData;
+    // export let data: PageData;
+    // export let form: ActionData;
     var tasks: Task[] = [];
     var parsedTasks: Task[];
+    // const initialLastID = () => {
+    //     const savedLastID = localStorage.getItem('lastID');
+    //     return savedLastID ? parseInt(savedLastID, 10): 0;
+    // };
     onMount(() => {
-        
-        if (typeof data.tasks === "string" && typeof data.lastID === "string") {
-            parsedTasks = JSON.parse(data.tasks);
-            lastID.set(Number(data.lastID));
+        if (typeof localStorage !== 'undefined') {
+            console.log('bby');
+            const savedTasks = localStorage.getItem('tasks');
+            const savedLastID = localStorage.getItem('lastID');
+            if (savedTasks) {
+                parsedTasks = JSON.parse(savedTasks);
+                lastID.set(Number(savedLastID));
+                tasks = parsedTasks;
+                stringifiedTasks = JSON.stringify(tasks, null, 2);
+                console.log(stringifiedTasks);
 
-            console.log("tasks from cookie: " + data.tasks);
-            console.log("lastID from cookie: " + data.lastID);
-            tasks = parsedTasks;
-            stringifiedTasks = JSON.stringify(tasks, null, 2);
+                const tmp = JSON.stringify(tasks, null, 2);
+                console.log("ANOTHERTEST " + tmp);
+            }
+            else {
+                const tmp = JSON.stringify(tasks, null, 2);
+                console.log("FAILTEST " + tmp);
+            }
+            if (savedLastID)
+                lastID.set(parseInt(savedLastID));
+            else
+                lastID.set(0);
+            
         }
+        
+        // if (typeof data.tasks === "string" && typeof data.lastID === "string") {
+        //     parsedTasks = JSON.parse(data.tasks);
+        //     lastID.set(Number(data.lastID));
+
+        //     console.log("tasks from cookie: " + data.tasks);
+        //     console.log("lastID from cookie: " + data.lastID);
+        //     tasks = parsedTasks;
+        //     stringifiedTasks = JSON.stringify(tasks, null, 2);
+        // }
 
     });
 
@@ -36,6 +64,34 @@
         .filter(([key, value]) => typeof value === 'string')
         .map(([key, value]) => `--${key}:${value}`)
         .join(';');
+
+    $: {
+        if (typeof localStorage !== 'undefined') {
+            if (stringifiedTasks != "[]") {
+                localStorage.setItem('tasks', stringifiedTasks);
+                console.log(stringifiedTasks);
+
+            }
+
+            const savedTasks = localStorage.getItem('tasks');
+            if (savedTasks) {
+                const tmp = JSON.stringify(tasks, null, 2);
+                console.log("TEST " + tmp);
+            }
+        }
+    }
+    $: {
+        if (typeof localStorage !== 'undefined') {
+            if ($lastID != 0) {
+                localStorage.setItem('lastID', $lastID.toString());
+                console.log("lastid" + $lastID);
+                
+            }
+            
+
+
+        }
+    }
 
 </script>
 
@@ -63,10 +119,10 @@
                 console.log('Received updateParent event:', e.detail);
                 tasks = e.detail;
                 parsedTasks = parsedTasks;
-                setTimeout(() => {
+                // setTimeout(() => {
                     
-                    saveform.requestSubmit();
-                }, 500);
+                //     saveform.requestSubmit();
+                // }, 500);
             }}
             />
             {/key}
@@ -75,12 +131,12 @@
     </main>
     </div>
 
-    <form class="hidden" method="POST" action=?/save bind:this={saveform} use:enhance>
+    <!-- <form class="hidden" method="POST" action=?/save bind:this={saveform} use:enhance>
         <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
         <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
         {#if form?.invalid}invalid submission{/if}
         <button class="hidden" type="submit"/>
-    </form>
+    </form> -->
 
     {#if debug}
         <div>
@@ -112,7 +168,7 @@
                 Use Template
             </button>
         
-            <form method="POST" action=?/save use:enhance>
+            <!-- <form method="POST" action=?/save use:enhance>
                 <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
                 <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
                 <button class="regular" type="submit">
@@ -124,7 +180,7 @@
                 <button class="regular" type="submit">
                     delete tasks
                 </button>
-            </form>
+            </form> -->
         
             <DynamicButton
             on:click={() => alert("bruh")}
