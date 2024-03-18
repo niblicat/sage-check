@@ -22,11 +22,6 @@
                 lastID.set(Number(savedLastID));
                 tasks = parsedTasks;
                 stringifiedTasks = JSON.stringify(tasks, null, 2);
-
-                const tmp = JSON.stringify(tasks, null, 2);
-            }
-            else {
-                const tmp = JSON.stringify(tasks, null, 2);
             }
             if (savedLastID)
                 lastID.set(parseInt(savedLastID));
