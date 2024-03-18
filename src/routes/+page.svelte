@@ -3,30 +3,31 @@
     import testtasks from '$lib/tasks.json';
     import { type Task } from './todo';
     import { onMount } from 'svelte';
-    import { enhance } from '$app/forms';
-    import type { PageData, ActionData } from './$types';
+
     import { lastID } from "./todo";
     import DynamicButton from './dynamicbutton.svelte';
     import { styles } from './themes.svelte';
 
     const debug = false;
 
-    let saveform: HTMLFormElement;
-
-    export let data: PageData;
-    export let form: ActionData;
     var tasks: Task[] = [];
     var parsedTasks: Task[];
-    onMount(() => {
-        
-        if (typeof data.tasks === "string" && typeof data.lastID === "string") {
-            parsedTasks = JSON.parse(data.tasks);
-            lastID.set(Number(data.lastID));
 
-            console.log("tasks from cookie: " + data.tasks);
-            console.log("lastID from cookie: " + data.lastID);
-            tasks = parsedTasks;
-            stringifiedTasks = JSON.stringify(tasks, null, 2);
+    onMount(() => {
+        if (typeof localStorage !== 'undefined') {
+            const savedTasks = localStorage.getItem('tasks');
+            const savedLastID = localStorage.getItem('lastID');
+            if (savedTasks) {
+                parsedTasks = JSON.parse(savedTasks);
+                lastID.set(Number(savedLastID));
+                tasks = parsedTasks;
+                stringifiedTasks = JSON.stringify(tasks, null, 2);
+            }
+            if (savedLastID)
+                lastID.set(parseInt(savedLastID));
+            else
+                lastID.set(0);
+            
         }
 
     });
@@ -36,6 +37,22 @@
         .filter(([key, value]) => typeof value === 'string')
         .map(([key, value]) => `--${key}:${value}`)
         .join(';');
+
+    $: {
+        if (typeof localStorage !== 'undefined') {
+            if (stringifiedTasks != "[]") {
+                localStorage.setItem('tasks', stringifiedTasks);
+
+            }
+        }
+    }
+    $: {
+        if (typeof localStorage !== 'undefined') {
+            if ($lastID != 0) {
+                localStorage.setItem('lastID', $lastID.toString());
+            }
+        }
+    }
 
 </script>
 
@@ -60,13 +77,13 @@
             {tasks}
             {debug}
             on:updateParent={(e) => {
-                console.log('Received updateParent event:', e.detail);
                 tasks = e.detail;
                 parsedTasks = parsedTasks;
-                setTimeout(() => {
-                    
-                    saveform.requestSubmit();
-                }, 500);
+            }}
+            on:clearTasks={() => {
+                tasks = [];
+                localStorage.setItem('tasks', "[]");
+                parsedTasks = parsedTasks;
             }}
             />
             {/key}
@@ -74,13 +91,6 @@
 
     </main>
     </div>
-
-    <form class="hidden" method="POST" action=?/save bind:this={saveform} use:enhance>
-        <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
-        <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-        {#if form?.invalid}invalid submission{/if}
-        <button class="hidden" type="submit"/>
-    </form>
 
     {#if debug}
         <div>
@@ -111,20 +121,6 @@
             >
                 Use Template
             </button>
-        
-            <form method="POST" action=?/save use:enhance>
-                <input type="hidden" name="tasks" id="tasks" bind:value={stringifiedTasks}>
-                <input type="hidden" name="lastID" id="lastID" bind:value={$lastID}>
-                <button class="regular" type="submit">
-                    save tasks
-                </button>
-                {#if form?.invalid}invalid submission{/if}
-            </form>
-            <form method="POST" action=?/delete use:enhance>
-                <button class="regular" type="submit">
-                    delete tasks
-                </button>
-            </form>
         
             <DynamicButton
             on:click={() => alert("bruh")}
@@ -248,13 +244,6 @@
         border: 2px solid var(--input);
         border-radius: 25px;
         overflow: auto;
-    }
-
-    .hidden {
-        position: absolute;
-        width: 0;
-        height: 0;
-        visibility: hidden;
     }
 
     h1 {

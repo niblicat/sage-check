@@ -7,6 +7,7 @@
     import { createEventDispatcher } from "svelte";
     import Checkbox from "./checkbox.svelte";
     import DynamicButton from "./dynamicbutton.svelte";
+    import { fade } from "svelte/transition";
 
     const dispatch = createEventDispatcher();
 
@@ -26,7 +27,7 @@
         dispatch('updateParent', items);
     }
     
-    function addChild(title: string, subItems: Task[]) {
+    function AddChild(title: string, subItems: Task[]) {
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -39,7 +40,7 @@
         items = items;
         dispatch('updateParent', items);
     }
-    function addTask(title: string) {
+    function AddTask(title: string) {
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -52,7 +53,7 @@
         items = items;
         dispatch('updateParent', items);
     }
-    function removeSelf(item: Task) {
+    function RemoveSelf(item: Task) {
         // delete self
         let itemIndex = items.indexOf(item);
         items.splice(itemIndex, 1);
@@ -60,23 +61,29 @@
         items = items;
         dispatch('updateParent', items);
     }
-    function renameTask(item: Task, title: string) {
+    function RenameTask(item: Task, title: string) {
         item.title = title;
         items = items;
         dispatch('updateParent', items);
     }
 
+    function ClearTasks() {
+        items = [];
+        lastID.set(0);
+
+        items = items;
+    }
 </script>
 
 <section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
     {#each items as item (item.id)}
-        <div animate:flip="{{duration: flipDurationMs}}">
+        <div transition:fade animate:flip="{{duration: flipDurationMs}}">
             <Checkbox
             bind:checked={item.completed}
             on:dblclick={() => {
                 let newTitle = prompt('New task name');
                 if (typeof newTitle == 'string')
-                    renameTask(item, newTitle)
+                    RenameTask(item, newTitle)
             }}
             >
                 {item.title}
@@ -86,7 +93,7 @@
             on:click={() => {
                 let title = prompt('New task name');
                 if (typeof title == 'string')
-                    addChild(title, item.sub)
+                    AddChild(title, item.sub)
             }}
             class="regular"
             oclass="round"
@@ -95,7 +102,7 @@
             </DynamicButton>
             {#if item.completed}
                 <DynamicButton
-                on:click={() => removeSelf(item)}
+                on:click={() => RemoveSelf(item)}
                 class="regular"
                 oclass="round"
                 >
@@ -133,10 +140,21 @@
     on:click={() => {
         let title = prompt('New task name');
         if (typeof title == 'string')
-            addTask(title);
+            AddTask(title);
     }}
     >
         new
+    </DynamicButton>
+    <DynamicButton
+    class="regular"
+    oclass="container"
+    on:click={() => {
+        let confirmation = confirm("Are you sure you want to clear all todos?");
+        if (confirmation)
+            ClearTasks();
+    }}
+    >
+        clear
     </DynamicButton>
 {/if}
 
