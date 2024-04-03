@@ -7,7 +7,6 @@
     import { createEventDispatcher } from "svelte";
     import Checkbox from "./checkbox.svelte";
     import DynamicButton from "./dynamicbutton.svelte";
-    import { fade } from "svelte/transition";
 
     const dispatch = createEventDispatcher();
 
@@ -16,10 +15,11 @@
     export let debug: boolean = false;
 
     var items = tasks;
-    var flipDurationMs = 100;
+    var flipDurationMs = 200;
 
     function handleDndConsider(e: CustomEvent) {
         items = e.detail.items;
+        // dispatch('updateParent', items);
     }
 
     function handleDndFinalize(e: CustomEvent) {
@@ -75,9 +75,9 @@
     }
 </script>
 
-<section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+<section class="in-use" use:dndzone="{{items, flipDurationMs, centreDraggedOnCursor: true, dropTargetStyle: {outline: '#022859D9 solid 2px'} }}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
     {#each items as item (item.id)}
-        <div transition:fade animate:flip="{{duration: flipDurationMs}}">
+        <div animate:flip="{{duration: flipDurationMs}}">
             <Checkbox
             bind:checked={item.completed}
             on:dblclick={() => {
@@ -165,12 +165,15 @@ section {
     padding: 0.4em;
     overflow-y: auto;
     height: auto;
+    border: 2px solid #0228591A;
     background-color: #0228591A;
     border-radius: 25px;
 }
 div {
-    width: calc(100% - 0.3em);
-    padding: 0.3em;
+    width: calc(100% - 0.5em);
+    padding: 0.4em;
     margin: 0.15em 0;
+    
 }
+
 </style>
