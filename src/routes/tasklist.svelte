@@ -81,7 +81,7 @@
             <Checkbox
             bind:checked={item.completed}
             on:dblclick={() => {
-                let newTitle = prompt('New task name');
+                let newTitle = prompt('New task name', item.title);
                 if (typeof newTitle == 'string')
                     RenameTask(item, newTitle)
             }}
@@ -91,7 +91,7 @@
             <slot />
             <DynamicButton
             on:click={() => {
-                let title = prompt('New task name');
+                let title = prompt('New task name', item.title);
                 if (typeof title == 'string')
                     AddChild(title, item.sub)
             }}
