@@ -91,7 +91,7 @@
             <slot />
             <DynamicButton
             on:click={() => {
-                let title = prompt('New task name', item.title);
+                let title = prompt('New task name');
                 if (typeof title == 'string')
                     AddChild(title, item.sub)
             }}
