@@ -63,8 +63,7 @@
         To-do
     </title>
 </svelte:head>
-<html lang="en">
-<body class={$styles.hasgradient === false ? "nogradient" : ""} style={myStyles}>
+<body data-sveltekit-preload-data="hover"class={$styles.hasgradient === false ? "nogradient" : ""} style={myStyles}>
 
     <div class="main-container">
     <main>
@@ -134,11 +133,10 @@
     {/if}
 
 </body>
-</html>
 
 
 <style>
-    html, body {
+    body {
         margin: 0px;
         padding: 0px;
         background-color: var(--altbackground);
@@ -179,19 +177,20 @@
         box-sizing: border-box;
     }
 
-    ::-webkit-scrollbar {
-        width: 16px;
-    }
-
-    ::-webkit-scrollbar-track {
+    *::-webkit-scrollbar {
         background-color: transparent;
+        width: 6px;
     }
 
-    ::-webkit-scrollbar-thumb {
+    *::-webkit-scrollbar-track {
+        background-color: transparent;
+        margin-block: 18px;
+    }
+
+    *::-webkit-scrollbar-thumb {
         background-color: var(--text);
         border-radius: 25px;
         border: 6px solid transparent;
-        background-clip: content-box;
     }
 
     button, :global(button) {
@@ -234,6 +233,9 @@
         width: min(600px, 92vw);
         margin: auto;
         overflow: hidden;
+        scrollbar-color: var(--text) transparent;
+        scrollbar-width: thin;
+        scroll-padding: 20px;
     }
 
     main {
