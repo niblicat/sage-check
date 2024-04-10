@@ -86,7 +86,7 @@ aria-checked={checked}
         background-color: #eee;
     }
 
-    input:focus + span, button:hover > span, button:focus > span {
+    input:focus + span, button:hover > span, button:focus-visible > span {
       background-color: #ccc;
     }
 
@@ -114,10 +114,10 @@ aria-checked={checked}
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
-    } 
+    }
 
     @media(hover: hover) {
-        span:hover, span:focus-visible, button:focus > span {
+        span:hover, span:focus-visible, button:focus-visible > span {
             transform: scale(1.1);
             -webkit-transform: scale(1.1);
             -moz-transform: scale(1.1);

@@ -86,7 +86,11 @@
                     RenameTask(item, newTitle)
             }}
             >
-                {item.title}
+                {#if item.title == ""}
+                    <br>
+                {:else}
+                    {item.title}
+                {/if}
             </Checkbox>
             <slot />
             <DynamicButton
