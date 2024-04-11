@@ -67,7 +67,7 @@
         dispatch('updateParent', items);
     }
 
-    function ClearTasks() {
+    export function ClearTasks() {
         items = [];
         lastID.set(0);
 
@@ -138,31 +138,6 @@
         L{level}
     </DynamicButton>
 {/if}
-{#if level === 0}
-    <DynamicButton
-    class="regular"
-    oclass="container"
-    on:click={() => {
-        let title = prompt('New task name');
-        if (typeof title == 'string')
-            AddTask(title);
-    }}
-    >
-        new
-    </DynamicButton>
-    <DynamicButton
-    class="regular"
-    oclass="container"
-    on:click={() => {
-        let confirmation = confirm("Are you sure you want to clear all todos?");
-        if (confirmation)
-            ClearTasks();
-    }}
-    >
-        clear
-    </DynamicButton>
-{/if}
-
 
 <style>
 section {
