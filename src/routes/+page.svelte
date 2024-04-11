@@ -65,7 +65,7 @@
         To-do
     </title>
 </svelte:head>
-<body data-sveltekit-preload-data="hover"class={$styles.hasgradient === false ? "nogradient" : ""} style={myStyles}>
+<div data-sveltekit-preload-data="hover" class="content {$styles.hasgradient === false ? "nogradient" : ""}" style={myStyles}>
 
     <div class="main-container">
     <main>
@@ -158,11 +158,11 @@
         </div>
     {/if}
 
-</body>
+</div>
 
 
 <style>
-    body {
+    .content {
         margin: 0px;
         padding: 0px;
         background-color: var(--altbackground);
@@ -179,7 +179,7 @@
         overflow: auto;
     }
 
-    body {
+    .content {
         display: flex;
         flex-direction: row;
         align-items: center;
