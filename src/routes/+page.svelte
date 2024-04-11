@@ -92,28 +92,30 @@
         </div>
     </main>
     </div>
-    <DynamicButton
-    class="regular"
-    oclass="container"
-    on:click={() => {
-        let title = prompt('New task name');
-        if (typeof title == 'string')
-            taskListComp.AddTask(title);
-    }}
-    >
-        new
-    </DynamicButton>
-    <DynamicButton
-    class="regular"
-    oclass="container"
-    on:click={() => {
-        let confirmation = confirm("Are you sure you want to clear all todos?");
-        if (confirmation)
-            taskListComp.ClearTasks();
-    }}
-    >
-        clear
-    </DynamicButton>
+    <div class="controllers">
+        <DynamicButton
+        class="regular"
+        oclass="container"
+        on:click={() => {
+            let title = prompt('New task name');
+            if (typeof title == 'string')
+                taskListComp.AddTask(title);
+        }}
+        >
+            new
+        </DynamicButton>
+        <DynamicButton
+        class="regular"
+        oclass="container"
+        on:click={() => {
+            let confirmation = confirm("Are you sure you want to clear all todos?");
+            if (confirmation)
+                taskListComp.ClearTasks();
+        }}
+        >
+            clear
+        </DynamicButton>
+    </div>
 
     {#if debug}
         <div>
