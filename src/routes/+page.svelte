@@ -13,6 +13,8 @@
     var tasks: Task[] = [];
     var parsedTasks: Task[];
 
+    let taskListComp;
+
     onMount(() => {
         if (typeof localStorage !== 'undefined') {
             const savedTasks = localStorage.getItem('tasks');
@@ -72,6 +74,7 @@
         <div class="task-box">
             {#key parsedTasks}
             <TaskList
+            bind:this={taskListComp}
             level={0}
             {tasks}
             {debug}
@@ -87,9 +90,30 @@
             />
             {/key}
         </div>
-
     </main>
     </div>
+    <DynamicButton
+    class="regular"
+    oclass="container"
+    on:click={() => {
+        let title = prompt('New task name');
+        if (typeof title == 'string')
+            taskListComp.AddTask(title);
+    }}
+    >
+        new
+    </DynamicButton>
+    <DynamicButton
+    class="regular"
+    oclass="container"
+    on:click={() => {
+        let confirmation = confirm("Are you sure you want to clear all todos?");
+        if (confirmation)
+            taskListComp.ClearTasks();
+    }}
+    >
+        clear
+    </DynamicButton>
 
     {#if debug}
         <div>

@@ -40,7 +40,7 @@
         items = items;
         dispatch('updateParent', items);
     }
-    function AddTask(title: string) {
+    export function AddTask(title: string) {
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -72,6 +72,7 @@
         lastID.set(0);
 
         items = items;
+        dispatch('clearTasks', items);
     }
 </script>
 
@@ -110,7 +111,7 @@
                 class="regular"
                 oclass="round"
                 >
-                -
+                - 
                 </DynamicButton>
             {/if}
                 <svelte:self
