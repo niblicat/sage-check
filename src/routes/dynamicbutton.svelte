@@ -2,6 +2,8 @@
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
+    export let scalemin = 0.9;
+    export let scalemax = 1.1;
 
     let amClicked: boolean = false;
     

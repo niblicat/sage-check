@@ -94,8 +94,9 @@
     </div>
     <div class="controllers">
         <DynamicButton
-        class="regular"
-        oclass="container"
+        id="new-task"
+        class="regular wide"
+        oclass="wide-container"
         on:click={() => {
             let title = prompt('New task name');
             if (typeof title == 'string')
@@ -103,10 +104,11 @@
         }}
         >
             new
-        </DynamicButton>
-        <DynamicButton
-        class="regular"
-        oclass="container"
+        </DynamicButton><!--
+        --><DynamicButton
+        id="clear-tasks"
+        class="regular wide"
+        oclass="wide-container"
         on:click={() => {
             let confirmation = confirm("Are you sure you want to clear all todos?");
             if (confirmation)
@@ -181,7 +183,7 @@
 
     .content {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         color: var(--text);
@@ -227,10 +229,12 @@
         height: 28px;
         width: 60px;
     }
+
     :global(button.round) {
         height: 20px;
         width: 20px;
     }
+
     button.regular, :global(button.regular) {
         border-radius: 25px;
         border: 2px solid var(--main);
@@ -254,10 +258,39 @@
         }
     }
 
-    .main-container {
-        height: 92vh;
+    :global(button.wide) {
+        font-size: var(--fontsize);
+        border-radius: 0;
+    }
+
+    :global(button.wide-container) {
+        height: 100%;
+        width: 50%;
+    }
+
+    :global(button#new-task) {
+        border-right: 1px solid var(--main);
+        border-radius: 0 0 0 25px;
+    }
+
+    :global(button#clear-tasks) {
+        border-left: 1px solid var(--main);
+        border-radius: 0 0 25px 0;
+    }
+
+    .controllers {
+        font-size: var(--fontsize);
+        display: flex;
         width: min(600px, 92vw);
-        margin: auto;
+        height: 2.5em;
+        /* display: inline-block */
+    }
+
+    .main-container {
+        height: 88vh;
+        width: min(600px, 92vw);
+        /* margin: auto; */
+        /* padding-bottom: 4vh; */
         overflow: hidden;
         scrollbar-color: var(--text) transparent;
         scrollbar-width: thin;
@@ -270,7 +303,7 @@
         padding: 2em;
         background-color: var(--main);
         border: 2px solid var(--input);
-        border-radius: 25px;
+        border-radius: 25px 25px 0 0;
         overflow: auto;
     }
 
