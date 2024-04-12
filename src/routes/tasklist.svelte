@@ -152,8 +152,7 @@ section {
 div {
     width: calc(100% - 0.5em);
     padding: 0.4em;
-    margin: 0.15em 0;
-    
+    margin: 0.15em 0.15em;
 }
 
 </style>
