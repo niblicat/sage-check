@@ -17,12 +17,18 @@
             }, 5);
         }
     }
+    $: dynStyles = `--scalemin:${scalemin}; --scalemax:${scalemax};`;
+    // Object.entries($styles)
+    //     .filter(([key, value]) => typeof value === 'string')
+    //     .map(([key, value]) => `--${key}:${value}`)
+    //     .join(';');
 </script>
 
 <button
 class="outer {$$restProps.oclass || ''}"
 tabindex="-1"
 on:click={handleClick}
+style={dynStyles}
 >
     <button
     id="{$$restProps.id || ''}"
@@ -34,7 +40,7 @@ on:click={handleClick}
     </button>
 </button>
 
-<style>
+<style lang="">
     button.outer {
         margin: 0;
         background-color: transparent;
@@ -50,19 +56,19 @@ on:click={handleClick}
 
     @media(hover: hover) {
         button.inner:hover, button.inner:focus-visible {
-            transform: scale(1.1);
-            -webkit-transform: scale(1.1);
-            -moz-transform: scale(1.1);
-            -o-transform: scale(1.1);
-            -ms-transform: scale(1.1);
+            transform: scale(var(--scalemax));
+            -webkit-transform: scale(var(--scalemax));
+            -moz-transform: scale(var(--scalemax));
+            -o-transform: scale(var(--scalemax));
+            -ms-transform: scale(var(--scalemax));
         }
     }
 
     button.inner:active {
-        transform: scale(0.9);
-        -webkit-transform: scale(0.9);
-        -moz-transform: scale(0.9);
-        -o-transform: scale(0.9);
-        -ms-transform: scale(0.9);
+        transform: scale(var(--scalemin));
+        -webkit-transform: scale(var(--scalemin));
+        -moz-transform: scale(var(--scalemin));
+        -o-transform: scale(var(--scalemin));
+        -ms-transform: scale(var(--scalemin));
     }
 </style>

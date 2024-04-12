@@ -97,6 +97,8 @@
         id="new-task"
         class="regular wide"
         oclass="wide-container"
+        scalemin={0.99}
+        scalemax={1.01}
         on:click={() => {
             let title = prompt('New task name');
             if (typeof title == 'string')
@@ -274,7 +276,7 @@
     }
 
     :global(button#clear-tasks) {
-        border-left: 1px solid var(--main);
+        border-left: 1px solid var(--main)a;
         border-radius: 0 0 25px 0;
     }
 
