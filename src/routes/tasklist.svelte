@@ -140,19 +140,18 @@
 {/if}
 
 <style>
-section {
-    width: auto;
-    padding: 0.4em;
-    overflow-y: auto;
-    height: auto;
-    border: 2px solid #0228591A;
-    background-color: #0228591A;
-    border-radius: 25px;
-}
-div {
-    width: calc(100% - 0.5em);
-    padding: 0.4em;
-    margin: 0.15em 0.15em;
-}
-
+    section {
+        width: auto;
+        padding: 0.4em;
+        overflow-y: auto;
+        height: auto;
+        border: 2px solid #0228591A;
+        background-color: #0228591A;
+        border-radius: 25px;
+    }
+    div {
+        width: calc(100% - 0.5em);
+        padding: 0.4em;
+        margin: 0.15em 0.15em;
+    }
 </style>
