@@ -168,31 +168,10 @@
 
 
 <style>
-    .content {
-        margin: 0px;
-        padding: 0px;
-        background-color: var(--altbackground);
-        background-image: linear-gradient(var(--gradientdirection, 'to bottom right'), var(--background), var(--altbackground));
-    }
-
-    .nogradient {
-        background-image: none;
-    }
-
     :global(html), :global(body) {
         margin: 0px;
         padding: 0px;
         overflow: auto;
-    }
-
-    .content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: var(--text);
-        height: 100vh;
-        width: 100vw;
     }
 
     *, :global(*) {
@@ -225,6 +204,57 @@
         border: 6px solid transparent;
     }
 
+    .content {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0px;
+        padding: 0px;
+        background-color: var(--altbackground);
+        background-image: linear-gradient(var(--gradientdirection, 'to bottom right'), var(--background), var(--altbackground));
+        color: var(--text);
+    }
+
+    .nogradient {
+        background-image: none;
+    }
+
+    .main-container {
+        height: 88vh;
+        width: min(600px, 92vw);
+        overflow: hidden;
+        scrollbar-color: var(--text) transparent;
+        scrollbar-width: thin;
+        scroll-padding: 20px;
+    }
+    
+    main {
+        width: 100%;
+        height: 100%;
+        padding: 2em;
+        background-color: var(--main);
+        border: 2px solid var(--input);
+        border-radius: 25px 25px 0 0;
+        overflow: auto;
+    }
+
+    h1 {
+        text-align: center;
+        padding: 0.2em;
+    }
+
+    .controllers {
+        font-size: var(--fontsize);
+        display: flex;
+        width: min(600px, 92vw);
+        height: 2.5em;
+        border-radius: 0 0 25px 25px;
+        background-color: var(--main);
+    }
+
     button, :global(button) {
         cursor: pointer;
     }
@@ -246,7 +276,7 @@
         background-color: var(--input);
     }
 
-    button:disabled, :global(button:disabled) {
+    button.regular:disabled, :global(button.regular:disabled) {
         color: var(--neutral);
     }
 
@@ -281,38 +311,4 @@
         border-left: 1px solid var(--main)a;
         border-radius: 0 0 25px 0;
     }
-
-    .controllers {
-        font-size: var(--fontsize);
-        display: flex;
-        width: min(600px, 92vw);
-        height: 2.5em;
-        border-radius: 0 0 25px 25px;
-        background-color: var(--main);
-    }
-
-    .main-container {
-        height: 88vh;
-        width: min(600px, 92vw);
-        overflow: hidden;
-        scrollbar-color: var(--text) transparent;
-        scrollbar-width: thin;
-        scroll-padding: 20px;
-    }
-
-    main {
-        width: 100%;
-        height: 100%;
-        padding: 2em;
-        background-color: var(--main);
-        border: 2px solid var(--input);
-        border-radius: 25px 25px 0 0;
-        overflow: auto;
-    }
-
-    h1 {
-        text-align: center;
-        padding: 0.2em;
-    }
-
 </style>
