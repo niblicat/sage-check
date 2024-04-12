@@ -111,6 +111,8 @@
         id="clear-tasks"
         class="regular wide"
         oclass="wide-container"
+        scalemin={0.99}
+        scalemax={1.01}
         on:click={() => {
             let confirmation = confirm("Are you sure you want to clear all todos?");
             if (confirmation)
@@ -285,14 +287,13 @@
         display: flex;
         width: min(600px, 92vw);
         height: 2.5em;
-        /* display: inline-block */
+        border-radius: 0 0 25px 25px;
+        background-color: var(--main);
     }
 
     .main-container {
         height: 88vh;
         width: min(600px, 92vw);
-        /* margin: auto; */
-        /* padding-bottom: 4vh; */
         overflow: hidden;
         scrollbar-color: var(--text) transparent;
         scrollbar-width: thin;
