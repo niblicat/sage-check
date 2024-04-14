@@ -13,6 +13,8 @@
     var tasks: Task[] = [];
     var parsedTasks: Task[];
 
+    let taskListComp;
+
     onMount(() => {
         if (typeof localStorage !== 'undefined') {
             const savedTasks = localStorage.getItem('tasks');
@@ -63,7 +65,7 @@
         To-do
     </title>
 </svelte:head>
-<body data-sveltekit-preload-data="hover"class={$styles.hasgradient === false ? "nogradient" : ""} style={myStyles}>
+<div data-sveltekit-preload-data="hover" class="content {$styles.hasgradient === false ? "nogradient" : ""}" style={myStyles}>
 
     <div class="main-container">
     <main>
@@ -72,6 +74,7 @@
         <div class="task-box">
             {#key parsedTasks}
             <TaskList
+            bind:this={taskListComp}
             level={0}
             {tasks}
             {debug}
@@ -87,8 +90,37 @@
             />
             {/key}
         </div>
-
     </main>
+    </div>
+    <div class="controllers">
+        <DynamicButton
+        id="new-task"
+        class="regular wide"
+        oclass="wide-container"
+        scalemin={0.99}
+        scalemax={1.01}
+        on:click={() => {
+            let title = prompt('New task name');
+            if (typeof title == 'string')
+                taskListComp.AddTask(title);
+        }}
+        >
+            new
+        </DynamicButton><!--
+        --><DynamicButton
+        id="clear-tasks"
+        class="regular wide"
+        oclass="wide-container"
+        scalemin={0.99}
+        scalemax={1.01}
+        on:click={() => {
+            let confirmation = confirm("Are you sure you want to clear all todos?");
+            if (confirmation)
+                taskListComp.ClearTasks();
+        }}
+        >
+            clear
+        </DynamicButton>
     </div>
 
     {#if debug}
@@ -132,35 +164,14 @@
         </div>
     {/if}
 
-</body>
+</div>
 
 
 <style>
-    body {
-        margin: 0px;
-        padding: 0px;
-        background-color: var(--altbackground);
-        background-image: linear-gradient(var(--gradientdirection, 'to bottom right'), var(--background), var(--altbackground));
-    }
-
-    .nogradient {
-        background-image: none;
-    }
-
     :global(html), :global(body) {
         margin: 0px;
         padding: 0px;
         overflow: auto;
-    }
-
-    body {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        color: var(--text);
-        height: 100vh;
-        width: 100vw;
     }
 
     *, :global(*) {
@@ -193,6 +204,57 @@
         border: 6px solid transparent;
     }
 
+    .content {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0px;
+        padding: 0px;
+        background-color: var(--altbackground);
+        background-image: linear-gradient(var(--gradientdirection, 'to bottom right'), var(--background), var(--altbackground));
+        color: var(--text);
+    }
+
+    .nogradient {
+        background-image: none;
+    }
+
+    .main-container {
+        height: 88vh;
+        width: min(600px, 92vw);
+        overflow: hidden;
+        scrollbar-color: var(--text) transparent;
+        scrollbar-width: thin;
+        scroll-padding: 20px;
+    }
+    
+    main {
+        width: 100%;
+        height: 100%;
+        padding: 2em;
+        background-color: var(--main);
+        border: 2px solid var(--input);
+        border-radius: 25px 25px 0 0;
+        overflow: auto;
+    }
+
+    h1 {
+        text-align: center;
+        padding: 0.2em;
+    }
+
+    .controllers {
+        font-size: var(--fontsize);
+        display: flex;
+        width: min(600px, 92vw);
+        height: 2.5em;
+        border-radius: 0 0 25px 25px;
+        background-color: var(--main);
+    }
+
     button, :global(button) {
         cursor: pointer;
     }
@@ -201,10 +263,12 @@
         height: 28px;
         width: 60px;
     }
+
     :global(button.round) {
         height: 20px;
         width: 20px;
     }
+
     button.regular, :global(button.regular) {
         border-radius: 25px;
         border: 2px solid var(--main);
@@ -212,7 +276,7 @@
         background-color: var(--input);
     }
 
-    button:disabled, :global(button:disabled) {
+    button.regular:disabled, :global(button.regular:disabled) {
         color: var(--neutral);
     }
 
@@ -228,29 +292,23 @@
         }
     }
 
-    .main-container {
-        height: 92vh;
-        width: min(600px, 92vw);
-        margin: auto;
-        overflow: hidden;
-        scrollbar-color: var(--text) transparent;
-        scrollbar-width: thin;
-        scroll-padding: 20px;
+    :global(button.wide) {
+        font-size: var(--fontsize);
+        border-radius: 0;
     }
 
-    main {
-        width: 100%;
+    :global(button.wide-container) {
         height: 100%;
-        padding: 2em;
-        background-color: var(--main);
-        border: 2px solid var(--input);
-        border-radius: 25px;
-        overflow: auto;
+        width: 50%;
     }
 
-    h1 {
-        text-align: center;
-        padding: 0.2em;
+    :global(button#new-task) {
+        border-right: 1px solid var(--main);
+        border-radius: 0 0 0 25px;
     }
 
+    :global(button#clear-tasks) {
+        border-left: 1px solid var(--main)a;
+        border-radius: 0 0 25px 0;
+    }
 </style>

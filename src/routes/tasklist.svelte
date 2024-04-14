@@ -40,7 +40,7 @@
         items = items;
         dispatch('updateParent', items);
     }
-    function AddTask(title: string) {
+    export function AddTask(title: string) {
         let newTask: Task = {
             "id": $lastID + 1,
             "title": title,
@@ -67,11 +67,12 @@
         dispatch('updateParent', items);
     }
 
-    function ClearTasks() {
+    export function ClearTasks() {
         items = [];
         lastID.set(0);
 
         items = items;
+        dispatch('clearTasks', items);
     }
 </script>
 
@@ -110,7 +111,7 @@
                 class="regular"
                 oclass="round"
                 >
-                -
+                - 
                 </DynamicButton>
             {/if}
                 <svelte:self
@@ -137,47 +138,20 @@
         L{level}
     </DynamicButton>
 {/if}
-{#if level === 0}
-    <DynamicButton
-    class="regular"
-    oclass="container"
-    on:click={() => {
-        let title = prompt('New task name');
-        if (typeof title == 'string')
-            AddTask(title);
-    }}
-    >
-        new
-    </DynamicButton>
-    <DynamicButton
-    class="regular"
-    oclass="container"
-    on:click={() => {
-        let confirmation = confirm("Are you sure you want to clear all todos?");
-        if (confirmation)
-            ClearTasks();
-    }}
-    >
-        clear
-    </DynamicButton>
-{/if}
-
 
 <style>
-section {
-    width: auto;
-    padding: 0.4em;
-    overflow-y: auto;
-    height: auto;
-    border: 2px solid #0228591A;
-    background-color: #0228591A;
-    border-radius: 25px;
-}
-div {
-    width: calc(100% - 0.5em);
-    padding: 0.4em;
-    margin: 0.15em 0;
-    
-}
-
+    section {
+        width: auto;
+        padding: 0.4em;
+        overflow-y: auto;
+        height: auto;
+        border: 2px solid #0228591A;
+        background-color: #0228591A;
+        border-radius: 25px;
+    }
+    div {
+        width: calc(100% - 0.5em);
+        padding: 0.4em;
+        margin: 0.15em 0.15em;
+    }
 </style>
