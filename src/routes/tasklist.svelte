@@ -81,6 +81,7 @@
         <div animate:flip="{{duration: flipDurationMs}}">
             <Checkbox
             bind:checked={item.completed}
+            on:click={() => dispatch('updateParent', items)}
             on:dblclick={() => {
                 let newTitle = prompt('New task name', item.title);
                 if (typeof newTitle == 'string')
