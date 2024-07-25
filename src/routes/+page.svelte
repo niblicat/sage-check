@@ -7,6 +7,7 @@
     import { lastID } from "./todo";
     import DynamicButton from './dynamicbutton.svelte';
     import { styles } from './themes.svelte';
+	import Dynamicbutton from './dynamicbutton.svelte';
 
     const debug = false;
 
@@ -33,6 +34,18 @@
         }
 
     });
+
+    function SaveTasks() {
+        const blob = new Blob([stringifiedTasks], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'tasks.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
 
     $: stringifiedTasks = JSON.stringify(tasks, null, 2);
     $: myStyles = Object.entries($styles)
@@ -66,7 +79,6 @@
     </title>
 </svelte:head>
 <div data-sveltekit-preload-data="hover" class="content {$styles.hasgradient === false ? "nogradient" : ""}" style={myStyles}>
-
     <div class="main-container">
     <main>
         <h1>To-do</h1>
@@ -163,6 +175,18 @@
 
         </div>
     {/if}
+    <div class="right-side-content">
+        <DynamicButton
+        on:click={() => SaveTasks()}
+        id="save-tasks"
+        class="regular"
+        oclass="container"
+        scalemin={0.99}
+        scalemax={1.01}
+        >
+            save
+        </DynamicButton>
+    </div>
 
 </div>
 
@@ -208,6 +232,7 @@
         height: 100vh;
         width: 100vw;
         display: flex;
+        flex: 0fr 1fr;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -310,5 +335,12 @@
     :global(button#clear-tasks) {
         border-left: 1px solid var(--main)a;
         border-radius: 0 0 25px 0;
+    }
+
+    .right-side-content {
+        position: absolute;
+        padding: 8px;
+        top: 0;
+        right: 0;
     }
 </style>
