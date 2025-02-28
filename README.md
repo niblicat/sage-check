@@ -4,4 +4,4 @@ A simple nested todo list. Drag and drop todos to arrange your tasks. Cross off 
 Tasks are saved into the browser's local storage.
 
 # Live Version
-[Check out the latest version!](https://sage.nibli.net/)
+[Check out the latest version!](https://sage-classic.nibli.net/)
